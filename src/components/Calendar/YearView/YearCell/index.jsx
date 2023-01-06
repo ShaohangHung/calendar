@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./index.css";
+import React, { useState, useCallback } from "react";
+import Cell from "../../Cell";
 
 export default function YearCell(props) {
   const { yearObj, changeView } = props;
@@ -7,45 +7,46 @@ export default function YearCell(props) {
   const [bgColor, setBgColor] = useState("white");
   const [color, setColor] = useState(yearObj.color);
 
-  const markRedCircle = () => {
+  const markRedCircle = useCallback((btnRef) => {
     setColor("white");
     setBgColor("red");
-  };
+  }, []);
 
-  const cancelRedCircle = () => {
-    const curYear = year.toString().slice(0, 3);
-    const startDecadesYear = startDecades.toString().slice(0, 3);
-    if (curYear === startDecadesYear) {
-      setColor("black");
-    } else {
-      setColor("#eeeeee");
-    }
-    setBgColor("white");
-  };
+  const cancelRedCircle = useCallback(
+    (btnRef) => {
+      const curYear = year.toString().slice(0, 3);
+      const startDecadesYear = startDecades.toString().slice(0, 3);
+      if (curYear === startDecadesYear) {
+        setColor("black");
+      } else {
+        setColor("#eeeeee");
+      }
+      setBgColor("white");
+    },
+    [startDecades, year]
+  );
 
-  const enterView = () => {
-    changeView(`MonthView`, `${year}01`);
-  };
+  const enterView = useCallback(
+    (btnRef) => {
+      changeView(`MonthView`, `${year}01`);
+    },
+    [year, changeView]
+  );
 
   return (
-    <td
-      style={{
+    <Cell
+      tdStyle={{
         padding: "0px",
         height: "50px",
         textAlign: "center",
         verticalAlign: "inherit",
       }}
-      key={year}
-    >
-      <button
-        className="yearCell"
-        style={{ color, backgroundColor: bgColor }}
-        onFocus={markRedCircle}
-        onBlur={cancelRedCircle}
-        onDoubleClick={enterView}
-      >
-        {year}
-      </button>
-    </td>
+      btnStyle={{ color, backgroundColor: bgColor }}
+      onFocus={markRedCircle}
+      onBlur={cancelRedCircle}
+      onDoubleClick={enterView}
+      value={year}
+      btnClass="yearCell"
+    ></Cell>
   );
 }

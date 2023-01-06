@@ -1,0 +1,38 @@
+.dateCell {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    border-radius: 100%;
+    line-height: 65px;
+    font-size: large;
+    outline: none;
+    border: none;
+}
+
+.monthCell {
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    border-radius: 100%;
+    line-height: 50px;
+    font-size: large;
+    outline: none;
+    border: none;
+}
+
+.yearCell {
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    border-radius: 100%;
+    line-height: 50px;
+    font-size: large;
+    outline: none;
+    border: none;
+}

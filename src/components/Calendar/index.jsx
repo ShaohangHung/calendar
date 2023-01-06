@@ -75,7 +75,7 @@ export default function Calendar(props) {
     <div className="container col-sm-4 col-md-7 col-lg-4 mt-5">
       <input
         onClick={(input) => {
-          showCalendar(input);
+          showCalendar();
         }}
         id="dateInput"
         onChange={(input) => {

@@ -3,15 +3,11 @@ import { nanoid } from "nanoid";
 import getTheDateOfTheWeek from "./getTheDateOfTheWeek";
 import DateCell from "./DateCell";
 import moment from "moment";
+import "./index.css";
 
 export default function DateView(props) {
-  const {
-    yearMonth,
-    changeView,
-    closeCalendar,
-    onSelect,
-    setYearMonth,
-  } = props;
+  const { yearMonth, changeView, closeCalendar, onSelect, setYearMonth } =
+    props;
   const year = parseInt(yearMonth.slice(0, 4));
   const month = parseInt(yearMonth.slice(4, 6));
 

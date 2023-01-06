@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import moment from "moment";
-import "./index.css";
+import Cell from "../../Cell";
 
 export default function DateCell(props) {
   const { yyyymmdd, month, closeCalendar, onSelect } = props;
@@ -8,51 +8,58 @@ export default function DateCell(props) {
   const [color, setColor] = useState(props.color);
 
   const curDate = parseInt(yyyymmdd.slice(6, 8));
-  const markRedCircle = () => {
+  const markRedCircle = useCallback((btnRef) => {
     setColor("white");
     setBgColor("red");
-  };
+  }, []);
 
-  const cancelRedCircle = () => {
-    const today = moment().format("YYYYMMDD");
-    const curMonth = parseInt(yyyymmdd.slice(4, 6));
-    curMonth === month ? setColor("black") : setColor("#eeeeee");
-    if (yyyymmdd === today) {
-      setColor("#db3d44");
-    }
-    setBgColor("white");
-  };
+  const cancelRedCircle = useCallback(
+    (btnRef) => {
+      const today = moment().format("YYYYMMDD");
+      const curMonth = parseInt(yyyymmdd.slice(4, 6));
+      curMonth === month ? setColor("black") : setColor("#eeeeee");
+      if (yyyymmdd === today) {
+        setColor("#db3d44");
+      }
+      setBgColor("white");
+    },
+    [yyyymmdd, month]
+  );
 
-  const setValue = () => {
-    const input = document.getElementById("dateInput");
-    const yyymmddDash = moment(yyyymmdd).format(`YYYY-MM-DD`);
-    input.value = yyymmddDash;
-    if (onSelect) {
-      onSelect(moment(yyyymmdd), yyyymmdd);
-    }
-  };
+  const setValue = useCallback(
+    (btnRef) => {
+      const input = document.getElementById("dateInput");
+      const yyymmddDash = moment(yyyymmdd).format(`YYYY-MM-DD`);
+      input.value = yyymmddDash;
+      if (onSelect) {
+        onSelect(moment(yyyymmdd), yyyymmdd);
+      }
+    },
+    [yyyymmdd, onSelect]
+  );
 
-  const setValueAndClose = () => {
-    const input = document.getElementById("dateInput");
-    const yyymmddDash = moment(yyyymmdd).format(`YYYY-MM-DD`);
-    input.value = yyymmddDash;
-    input.dispatchEvent(new Event("change"));
-    closeCalendar();
-  };
+  const setValueAndClose = useCallback(
+    (btnRef) => {
+      const input = document.getElementById("dateInput");
+      const yyymmddDash = moment(yyyymmdd).format(`YYYY-MM-DD`);
+      input.value = yyymmddDash;
+      input.dispatchEvent(new Event("change"));
+      closeCalendar();
+    },
+    [yyyymmdd, closeCalendar]
+  );
 
   return (
-    <td style={{ padding: "0px", height: "65px" }}>
-      <button
-        id={yyyymmdd}
-        className="dateCell"
-        style={{ color, backgroundColor: bgColor }}
-        onFocus={markRedCircle}
-        onBlur={cancelRedCircle}
-        onClick={setValue}
-        onDoubleClick={setValueAndClose}
-      >
-        {curDate}
-      </button>
-    </td>
+    <Cell
+      btnId={yyyymmdd}
+      tdStyle={{ padding: "0px", height: "65px" }}
+      btnStyle={{ color, backgroundColor: bgColor }}
+      onFocus={markRedCircle}
+      onBlur={cancelRedCircle}
+      onClick={setValue}
+      onDoubleClick={setValueAndClose}
+      value={curDate}
+      btnClass="dateCell"
+    ></Cell>
   );
 }
